@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SVG生成器</title>
+    <style>
+      :root {
+        --bg-color: #f0f0f0;
+        --container-bg: white;
+        --text-color: black;
+        --border-color: #ddd;
+      }
+
+      .dark-mode {
+        --bg-color: #333;
+        --container-bg: #555;
+        --text-color: white;
+        --border-color: #777;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        transition: background-color 0.3s, color 0.3s;
+      }
+      .container {
+        background-color: var(--container-bg);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      #svgOutput {
+        margin-top: 20px;
+        border: 1px solid var(--border-color);
+        padding: 10px;
+      }
+      #darkModeToggle {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 5px 10px;
+        background-color: var(--container-bg);
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="darkModeToggle">切换暗色模式</button>
+    <div class="container">
+      <h1>SVG生成器</h1>
+      <form id="svgForm">
+        <label for="shapeType">选择形状:</label>
+        <select id="shapeType">
+          <option value="circle">圆形</option>
+          <option value="rect">矩形</option>
+          <option value="line">直线</option>
+        </select>
+        <br /><br />
+        <button type="submit">生成SVG</button>
+      </form>
+      <div id="svgOutput"></div>
+    </div>
+
+    <script>
+      document.getElementById('svgForm').addEventListener('submit', function (e) {
+        e.preventDefault()
+        const shapeType = document.getElementById('shapeType').value
+        let svgContent = ''
+
+        switch (shapeType) {
+          case 'circle':
+            svgContent = '<circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />'
+            break
+          case 'rect':
+            svgContent = '<rect width="100" height="80" stroke="black" stroke-width="3" fill="blue" />'
+            break
+          case 'line':
+            svgContent = '<line x1="0" y1="0" x2="100" y2="100" stroke="black" stroke-width="3" />'
+            break
+        }
+
+        const svgWrapper = `<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">${svgContent}</svg>`
+        document.getElementById('svgOutput').innerHTML = svgWrapper
+      })
+
+      // Dark mode toggle functionality
+      const darkModeToggle = document.getElementById('darkModeToggle')
+      const body = document.body
+
+      darkModeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode')
+        const isDarkMode = body.classList.contains('dark-mode')
+        darkModeToggle.textContent = isDarkMode ? '切换亮色模式' : '切换暗色模式'
+      })
+    </script>
+  </body>
+</html>
